@@ -1,0 +1,180 @@
+.managed-ssh-settings
+  .row
+    .col-md-4
+      .profile-list
+        .list-header
+          h5 连接列表
+          button.btn.btn-sm.btn-primary((click)='startAdd()')
+            i.fas.fa-plus.me-1
+            | 新增
+
+        .search-box
+          .input-group
+            input.form-control(
+              type='text',
+              placeholder='搜索...',
+              [(ngModel)]='searchQuery',
+              (input)='onSearchChange()'
+            )
+            button.btn.btn-outline-secondary(
+              *ngIf='searchQuery',
+              type='button',
+              (click)='searchQuery = ""; onSearchChange()'
+            )
+              i.fas.fa-times
+
+        .group-filter(*ngIf='groups.length > 0')
+          select.form-select.form-select-sm([(ngModel)]='selectedGroup', (change)='onGroupFilterChange()')
+            option(value='') 所有分组
+            option(*ngFor='let group of groups', [value]='group') {{ group }}
+          button.btn.btn-sm.btn-link(*ngIf='selectedGroup', (click)='clearGroupFilter()')
+            | 清除
+
+        .list-group(*ngIf='!isLoading')
+          .list-group-item(
+            *ngFor='let profile of filteredProfiles',
+            [class.active]='selectedProfile?.id === profile.id',
+            (click)='selectProfile(profile)'
+          )
+            .profile-item
+              i.fas.fa-server.me-2
+              .profile-info
+                span.profile-name {{ profile.name }}
+                small.text-muted {{ profile.options.host }}:{{ profile.options.port }}
+              span.badge.badge-secondary(*ngIf='profile.group') {{ profile.group }}
+
+        .loading-state(*ngIf='isLoading')
+          i.fas.fa-spinner.fa-spin
+          span 加载中...
+
+        .empty-state(*ngIf='!isLoading && filteredProfiles.length === 0')
+          i.fas.fa-inbox
+          p(*ngIf='profiles.length === 0') 暂无连接
+          p(*ngIf='profiles.length > 0') 没有匹配的连接
+          button.btn.btn-sm.btn-outline-primary((click)='startAdd()', *ngIf='profiles.length === 0')
+            | 添加第一个连接
+
+    .col-md-8
+      .profile-detail
+        ng-container(*ngIf='!isEditing')
+          ng-container(*ngIf='selectedProfile')
+            .detail-header
+              h4 {{ selectedProfile.name }}
+              .btn-group
+                button.btn.btn-primary((click)='connect()')
+                  i.fas.fa-plug.me-1
+                  | 连接
+                button.btn.btn-outline-secondary((click)='startEdit()')
+                  i.fas.fa-edit.me-1
+                  | 编辑
+                button.btn.btn-outline-secondary((click)='copyAddress()')
+                  i.fas.fa-copy.me-1
+                  | 复制
+                button.btn.btn-outline-danger((click)='delete()')
+                  i.fas.fa-trash
+
+            .detail-info
+              .info-row
+                label Host:
+                span {{ selectedProfile.options.host }}
+              .info-row
+                label Port:
+                span {{ selectedProfile.options.port }}
+              .info-row
+                label User:
+                span {{ selectedProfile.options.user }}
+              .info-row
+                label Auth:
+                span.badge.bg-secondary {{ selectedProfile.options.authMode }}
+              .info-row(*ngIf='selectedProfile.group')
+                label Group:
+                span {{ selectedProfile.group }}
+              .info-row(*ngIf='selectedProfile.options.description')
+                label Description:
+                span {{ selectedProfile.options.description }}
+
+          ng-container(*ngIf='!selectedProfile')
+            .empty-state
+              i.fas.fa-hand-point-left.fa-2x
+              p 选择一个连接或创建新连接
+
+        ng-container(*ngIf='isEditing')
+          .edit-form
+            h4 {{ selectedProfile ? '编辑连接' : '新增连接' }}
+
+            .mb-3
+              label.form-label 名称 *
+              input.form-control(
+                [(ngModel)]='editForm.name',
+                placeholder='例如：生产服务器',
+                required
+              )
+
+            .mb-3
+              label.form-label 分组
+              input.form-control(
+                [(ngModel)]='editForm.group',
+                placeholder='例如：运维'
+              )
+
+            .mb-3
+              label.form-label Host *
+              input.form-control(
+                [(ngModel)]='editForm.host',
+                placeholder='例如：10.0.0.8 或 example.com',
+                required
+              )
+
+            .mb-3
+              label.form-label 端口 *
+              input.form-control(
+                type='number',
+                [(ngModel)]='editForm.port',
+                min='1',
+                max='65535',
+                required
+              )
+
+            .mb-3
+              label.form-label 用户名 *
+              input.form-control(
+                [(ngModel)]='editForm.user',
+                placeholder='例如：ubuntu',
+                required
+              )
+
+            .mb-3
+              label.form-label 认证方式
+              select.form-select([(ngModel)]='editForm.authMode')
+                option(value='password') 密码 (Password)
+                option(value='publicKey') 公钥 (Public Key)
+                option(value='agent') Agent
+                option(value='keyboardInteractive') 键盘交互
+
+            .mb-3(*ngIf='editForm.authMode === "password"')
+              label.form-label {{ selectedProfile ? '新密码（留空则不修改）' : '密码' }} *
+              .input-group
+                input.form-control(
+                  [type]='showPassword ? "text" : "password"',
+                  [(ngModel)]='editForm.password',
+                  [placeholder]='selectedProfile ? "留空保持不变" : "请输入密码"',
+                  [required]='!selectedProfile'
+                )
+                button.btn.btn-outline-secondary(
+                  type='button',
+                  (click)='togglePasswordVisibility()'
+                )
+                  i.fas([class.fa-eye]='!showPassword', [class.fa-eye-slash]='showPassword')
+
+            .btn-group.mt-4
+              button.btn.btn-primary(
+                (click)='save()',
+                [disabled]='isLoading'
+              )
+                i.fas.fa-save.me-1
+                | 保存
+              button.btn.btn-outline-secondary(
+                (click)='cancelEdit()',
+                [disabled]='isLoading'
+              )
+                | 取消
