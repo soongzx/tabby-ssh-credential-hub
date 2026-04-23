@@ -5,7 +5,7 @@
   "keywords": [
     "tabby-plugin"
   ],
-  "main": "dist/index.js",
+  "main": "index.js",
   "typings": "typings/index.d.ts",
   "files": [
     "dist",
