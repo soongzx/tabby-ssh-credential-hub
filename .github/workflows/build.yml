@@ -25,11 +25,21 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Create ZIP
+        run: |
+          cd dist
+          zip -r ../dist.zip .
+
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: v${{ github.run_number }}
-          name: Release v${{ github.run_number }}
+          release_name: Release v${{ github.run_number }}
           draft: false
           prerelease: false
-          files: dist/**/*
+          body: "Automated release from GitHub Actions"
+          asset_path: ./dist.zip
+          asset_name: tabby-ssh-credential-hub-v${{ github.run_number }}.zip
+          asset_content_type: application/zip
