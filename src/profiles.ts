@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core'
 import { ProfileProvider } from 'tabby-core'
-import SSHTabComponent from 'tabby-ssh'
+import { SSHTabComponent } from 'tabby-ssh'
 import { ManagedSSHProfile, MANAGED_SSH_TYPE } from './types'
 import { ManagedSSHMapperService } from './services/managedSSHMapper.service'
 
 @Injectable()
-export class ManagedSSHProfilesService extends ProfileProvider {
+export class ManagedSSHProfilesService extends ProfileProvider<any> {
   id = MANAGED_SSH_TYPE
   name = 'Managed SSH'
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { AppService, NotificationsService } from 'tabby-core'
-import SSHTabComponent from 'tabby-ssh'
+import { SSHTabComponent } from 'tabby-ssh'
 import { ManagedSSHProfile } from '../types'
 import { ManagedSSHMapperService } from './managedSSHMapper.service'
 
@@ -17,7 +17,7 @@ export class ManagedSSHLauncherService {
       const runtimeProfile = await this.mapper.toRuntimeSSHProfile(managed)
 
       this.app.openNewTab({
-        type: SSHTabComponent,
+        type: SSHTabComponent as any,
         inputs: { profile: runtimeProfile }
       })
     } catch (error: any) {
