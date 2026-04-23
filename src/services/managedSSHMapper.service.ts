@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core'
-import { SSHProfile, SSHAlgorithmType } from 'tabby-ssh'
 import { ManagedSSHProfile } from '../types'
 import { ManagedSSHSecretService } from './managedSSHSecret.service'
 
@@ -7,12 +6,12 @@ import { ManagedSSHSecretService } from './managedSSHSecret.service'
 export class ManagedSSHMapperService {
   constructor (private secret: ManagedSSHSecretService) {}
 
-  async toRuntimeSSHProfile (managed: ManagedSSHProfile): Promise<SSHProfile> {
+  async toRuntimeSSHProfile (managed: ManagedSSHProfile): Promise<any> {
     const password = managed.options.authMode === 'password'
       ? await this.secret.getPassword(managed.id)
       : null
 
-    const runtimeProfile: SSHProfile = {
+    const runtimeProfile = {
       id: `ssh-runtime:${managed.id}`,
       type: 'ssh',
       name: managed.name,
@@ -51,14 +50,14 @@ export class ManagedSSHMapperService {
         input: { backspace: 'backspace' },
         scripts: []
       }
-    } as any
+    }
 
     return runtimeProfile
   }
 
-  private getDefaultAlgorithms (): Record<SSHAlgorithmType, string[]> {
+  private getDefaultAlgorithms (): any {
     return {
-      'hmac': [
+      hmac: [
         'hmac-sha2-512-etm@openssh.com',
         'hmac-sha2-256-etm@openssh.com',
         'hmac-sha2-512',
@@ -66,21 +65,20 @@ export class ManagedSSHMapperService {
         'hmac-sha1-etm@openssh.com',
         'hmac-sha1',
       ],
-      'kex': [
-        'mlkem768x25519-sha256',
+      kex: [
         'curve25519-sha256',
         'curve25519-sha256@libssh.org',
         'diffie-hellman-group16-sha512',
         'diffie-hellman-group14-sha256',
       ],
-      'cipher': [
+      cipher: [
         'chacha20-poly1305@openssh.com',
         'aes256-gcm@openssh.com',
         'aes256-ctr',
         'aes192-ctr',
         'aes128-ctr',
       ],
-      'serverHostKey': [
+      serverHostKey: [
         'ssh-ed25519',
         'ecdsa-sha2-nistp256',
         'ecdsa-sha2-nistp521',
@@ -88,9 +86,7 @@ export class ManagedSSHMapperService {
         'rsa-sha2-512',
         'ssh-rsa',
       ],
-      'compression': [
-        'none',
-      ],
-    } as any
+      compression: ['none'],
+    }
   }
 }

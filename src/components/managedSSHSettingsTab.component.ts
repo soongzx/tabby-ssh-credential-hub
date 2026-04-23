@@ -37,6 +37,10 @@ export class ManagedSSHSettingsTabComponent implements OnInit {
     return Array.from(groupSet).sort()
   }
 
+  get sshAvailable (): boolean {
+    return this.launcher.isSSHAvailable()
+  }
+
   constructor (
     private store: ManagedSSHStoreService,
     private secret: ManagedSSHSecretService,

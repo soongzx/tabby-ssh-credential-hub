@@ -56,14 +56,17 @@
 
     .col-md-8
       .profile-detail
-        ng-container(*ngIf='!isEditing')
+          ng-container(*ngIf='!isEditing')
           ng-container(*ngIf='selectedProfile')
+            .ssh-status(*ngIf='!sshAvailable')
+              i.fas.fa-exclamation-triangle.me-1
+              | SSH 功能不可用，将复制连接地址
             .detail-header
               h4 {{ selectedProfile.name }}
               .btn-group
-                button.btn.btn-primary((click)='connect()')
+                button.btn.btn-primary((click)='connect()', [disabled]='!sshAvailable')
                   i.fas.fa-plug.me-1
-                  | 连接
+                  | {{ sshAvailable ? '连接' : '复制地址' }}
                 button.btn.btn-outline-secondary((click)='startEdit()')
                   i.fas.fa-edit.me-1
                   | 编辑
@@ -98,7 +101,7 @@
               i.fas.fa-hand-point-left.fa-2x
               p 选择一个连接或创建新连接
 
-        ng-container(*ngIf='isEditing')
+          ng-container(*ngIf='isEditing')
           .edit-form
             h4 {{ selectedProfile ? '编辑连接' : '新增连接' }}
 

@@ -6,11 +6,6 @@
     "tabby-plugin"
   ],
   "main": "index.js",
-  "typings": "typings/index.d.ts",
-  "files": [
-    "dist",
-    "typings"
-  ],
   "scripts": {
     "build": "webpack --progress --color && cp package.json dist/",
     "watch": "webpack --progress --color --watch"
@@ -26,8 +21,7 @@
     "rxjs": "^7",
     "tabby-core": "*",
     "tabby-settings": "*",
-    "tabby-terminal": "*",
-    "tabby-ssh": "*"
+    "tabby-terminal": "*"
   },
   "devDependencies": {
     "@ngtools/webpack": "^15",

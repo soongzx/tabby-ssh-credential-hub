@@ -161,6 +161,20 @@
   .profile-detail {
     height: 100%;
 
+    .ssh-status {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 0.25rem;
+      padding: 0.5rem 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+
+      i {
+        color: var(--color-warning, #f0ad4e);
+      }
+    }
+
     .detail-header {
       display: flex;
       justify-content: space-between;

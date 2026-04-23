@@ -1,6 +1,17 @@
-import { ForwardedPortConfig, PortForwardType } from 'tabby-ssh'
+export enum PortForwardType {
+  Local = 'Local',
+  Remote = 'Remote',
+  Dynamic = 'Dynamic',
+}
 
-export { ForwardedPortConfig, PortForwardType }
+export interface ForwardedPortConfig {
+  type: PortForwardType
+  host: string
+  port: number
+  targetAddress: string
+  targetPort: number
+  description: string
+}
 
 export interface ManagedSSHProfile {
   id: string
