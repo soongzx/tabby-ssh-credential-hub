@@ -136,7 +136,7 @@ export class ManagedSSHSettingsTabComponent implements OnInit {
           await this.secret.setPassword(this.selectedProfile.id, this.editForm.password)
         }
 
-        this.notifications.success('连接已更新')
+        this.notifications.info('连接已更新')
       } else {
         const newProfile = await this.store.addProfile({
           name: this.editForm.name,
@@ -162,7 +162,7 @@ export class ManagedSSHSettingsTabComponent implements OnInit {
           await this.secret.setPassword(newProfile.id, this.editForm.password)
         }
 
-        this.notifications.success('连接已添加')
+        this.notifications.info('连接已添加')
       }
 
       await this.loadProfiles()
@@ -189,7 +189,7 @@ export class ManagedSSHSettingsTabComponent implements OnInit {
       await this.secret.deletePassword(this.selectedProfile.id)
       await this.loadProfiles()
       this.selectedProfile = null
-      this.notifications.success('连接已删除')
+      this.notifications.info('连接已删除')
     } catch (error: any) {
       this.notifications.error(error?.message ?? '删除失败')
     } finally {
@@ -207,7 +207,7 @@ export class ManagedSSHSettingsTabComponent implements OnInit {
     const { user, host, port } = this.selectedProfile.options
     const address = `${user}@${host}:${port}`
     await navigator.clipboard.writeText(address)
-    this.notifications.success('已复制地址')
+    this.notifications.info('已复制地址')
   }
 
   togglePasswordVisibility () {
@@ -221,19 +221,19 @@ export class ManagedSSHSettingsTabComponent implements OnInit {
 
   private validateForm (): boolean {
     if (!this.editForm.name?.trim()) {
-      this.notifications.warning('请输入连接名称')
+      this.notifications.error('请输入连接名称')
       return false
     }
     if (!this.editForm.host?.trim()) {
-      this.notifications.warning('请输入主机地址')
+      this.notifications.error('请输入主机地址')
       return false
     }
     if (!this.editForm.user?.trim()) {
-      this.notifications.warning('请输入用户名')
+      this.notifications.error('请输入用户名')
       return false
     }
     if (this.editForm.port < 1 || this.editForm.port > 65535) {
-      this.notifications.warning('端口号无效')
+      this.notifications.error('端口号无效')
       return false
     }
     return true

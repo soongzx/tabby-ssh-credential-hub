@@ -63,7 +63,7 @@ export class ManagedSSHMapperService {
       [SSHAlgorithmType.KEX]: [...defaultAlgorithms.kex],
       [SSHAlgorithmType.CIPHER]: [...defaultAlgorithms.cipher],
       [SSHAlgorithmType.HOSTKEY]: [...defaultAlgorithms.serverHostKey],
-      [SSHAlgorithmType.Compression]: [...defaultAlgorithms.compression],
+      [SSHAlgorithmType.COMPRESSION]: [...defaultAlgorithms.compression],
     }
   }
 }
