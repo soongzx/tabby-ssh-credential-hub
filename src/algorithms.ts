@@ -1,6 +1,6 @@
 import { SSHAlgorithmType } from 'tabby-ssh'
 
-export const defaultAlgorithms = {
+export const defaultAlgorithms: Record<SSHAlgorithmType, string[]> = {
   [SSHAlgorithmType.KEX]: [
     'mlkem768x25519-sha256',
     'curve25519-sha256',

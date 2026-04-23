@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core'
 import { SSHProfile, SSHAlgorithmType } from 'tabby-ssh'
 import { ManagedSSHProfile } from '../types'
 import { ManagedSSHSecretService } from './managedSSHSecret.service'
-import { defaultAlgorithms } from '../algorithms'
 
 @Injectable()
 export class ManagedSSHMapperService {
@@ -59,11 +58,39 @@ export class ManagedSSHMapperService {
 
   private getDefaultAlgorithms (): Record<SSHAlgorithmType, string[]> {
     return {
-      [SSHAlgorithmType.HMAC]: [...defaultAlgorithms.hmac],
-      [SSHAlgorithmType.KEX]: [...defaultAlgorithms.kex],
-      [SSHAlgorithmType.CIPHER]: [...defaultAlgorithms.cipher],
-      [SSHAlgorithmType.HOSTKEY]: [...defaultAlgorithms.serverHostKey],
-      [SSHAlgorithmType.COMPRESSION]: [...defaultAlgorithms.compression],
-    }
+      'hmac': [
+        'hmac-sha2-512-etm@openssh.com',
+        'hmac-sha2-256-etm@openssh.com',
+        'hmac-sha2-512',
+        'hmac-sha2-256',
+        'hmac-sha1-etm@openssh.com',
+        'hmac-sha1',
+      ],
+      'kex': [
+        'mlkem768x25519-sha256',
+        'curve25519-sha256',
+        'curve25519-sha256@libssh.org',
+        'diffie-hellman-group16-sha512',
+        'diffie-hellman-group14-sha256',
+      ],
+      'cipher': [
+        'chacha20-poly1305@openssh.com',
+        'aes256-gcm@openssh.com',
+        'aes256-ctr',
+        'aes192-ctr',
+        'aes128-ctr',
+      ],
+      'serverHostKey': [
+        'ssh-ed25519',
+        'ecdsa-sha2-nistp256',
+        'ecdsa-sha2-nistp521',
+        'rsa-sha2-256',
+        'rsa-sha2-512',
+        'ssh-rsa',
+      ],
+      'compression': [
+        'none',
+      ],
+    } as any
   }
 }
