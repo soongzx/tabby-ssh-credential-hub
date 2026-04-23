@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { AppService, NotificationsService } from 'tabby-core'
-import { SSHTabComponent } from 'tabby-ssh'
+import SSHTabComponent from 'tabby-ssh'
 import { ManagedSSHProfile } from '../types'
 import { ManagedSSHMapperService } from './managedSSHMapper.service'
 
