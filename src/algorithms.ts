@@ -31,7 +31,7 @@ export const defaultAlgorithms = {
     'hmac-sha1-etm@openssh.com',
     'hmac-sha1',
   ],
-  [SSHAlgorithmType.COMPRESSION]: [
+  [SSHAlgorithmType.Compression]: [
     'none',
   ],
 }

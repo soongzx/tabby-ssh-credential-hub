@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core'
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { NotificationsService } from 'tabby-core'
 import { ManagedSSHProfile } from '../types'
 import { ManagedSSHStoreService } from '../services/managedSSHStore.service'
@@ -42,8 +41,7 @@ export class ManagedSSHSettingsTabComponent implements OnInit {
     private store: ManagedSSHStoreService,
     private secret: ManagedSSHSecretService,
     private launcher: ManagedSSHLauncherService,
-    private notifications: NotificationsService,
-    private modal: NgbModal
+    private notifications: NotificationsService
   ) {}
 
   async ngOnInit () {
@@ -138,7 +136,7 @@ export class ManagedSSHSettingsTabComponent implements OnInit {
           await this.secret.setPassword(this.selectedProfile.id, this.editForm.password)
         }
 
-        this.notifications.notify?.('success', '成功', '连接已更新')
+        this.notifications.success('连接已更新')
       } else {
         const newProfile = await this.store.addProfile({
           name: this.editForm.name,
@@ -164,14 +162,14 @@ export class ManagedSSHSettingsTabComponent implements OnInit {
           await this.secret.setPassword(newProfile.id, this.editForm.password)
         }
 
-        this.notifications.notify?.('success', '成功', '连接已添加')
+        this.notifications.success('连接已添加')
       }
 
       await this.loadProfiles()
       this.isEditing = false
       this.resetForm()
     } catch (error: any) {
-      this.notifications.notify?.('error', '错误', error?.message ?? '保存失败')
+      this.notifications.error(error?.message ?? '保存失败')
     } finally {
       this.isLoading = false
     }
@@ -191,9 +189,9 @@ export class ManagedSSHSettingsTabComponent implements OnInit {
       await this.secret.deletePassword(this.selectedProfile.id)
       await this.loadProfiles()
       this.selectedProfile = null
-      this.notifications.notify?.('success', '成功', '连接已删除')
+      this.notifications.success('连接已删除')
     } catch (error: any) {
-      this.notifications.notify?.('error', '错误', error?.message ?? '删除失败')
+      this.notifications.error(error?.message ?? '删除失败')
     } finally {
       this.isLoading = false
     }
@@ -209,7 +207,7 @@ export class ManagedSSHSettingsTabComponent implements OnInit {
     const { user, host, port } = this.selectedProfile.options
     const address = `${user}@${host}:${port}`
     await navigator.clipboard.writeText(address)
-    this.notifications.notify?.('success', '已复制', address)
+    this.notifications.success('已复制地址')
   }
 
   togglePasswordVisibility () {
@@ -223,19 +221,19 @@ export class ManagedSSHSettingsTabComponent implements OnInit {
 
   private validateForm (): boolean {
     if (!this.editForm.name?.trim()) {
-      this.notifications.notify?.('warning', '验证失败', '请输入连接名称')
+      this.notifications.warning('请输入连接名称')
       return false
     }
     if (!this.editForm.host?.trim()) {
-      this.notifications.notify?.('warning', '验证失败', '请输入主机地址')
+      this.notifications.warning('请输入主机地址')
       return false
     }
     if (!this.editForm.user?.trim()) {
-      this.notifications.notify?.('warning', '验证失败', '请输入用户名')
+      this.notifications.warning('请输入用户名')
       return false
     }
     if (this.editForm.port < 1 || this.editForm.port > 65535) {
-      this.notifications.notify?.('warning', '验证失败', '端口号无效')
+      this.notifications.warning('端口号无效')
       return false
     }
     return true

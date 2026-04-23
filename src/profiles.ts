@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { NewTabParameters, ProfileProvider } from 'tabby-core'
-import { SSHTabComponent } from 'tabby-ssh'
+import SSHTabComponent from 'tabby-ssh'
 import { ManagedSSHProfile, MANAGED_SSH_TYPE } from './types'
 import { ManagedSSHMapperService } from './services/managedSSHMapper.service'
 
@@ -19,7 +19,7 @@ export class ManagedSSHProfilesService extends ProfileProvider<ManagedSSHProfile
     return []
   }
 
-  async getNewTabParameters (profile: ManagedSSHProfile): Promise<NewTabParameters<SSHTabComponent>> {
+  async getNewTabParameters (profile: ManagedSSHProfile): Promise<any> {
     const runtimeProfile = await this.mapper.toRuntimeSSHProfile(profile)
     return {
       type: SSHTabComponent,

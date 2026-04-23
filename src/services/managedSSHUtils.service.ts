@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core'
-import { NotificationsService } from 'tabby-core'
 
 @Injectable()
 export class ManagedSSHUtilsService {
-  constructor (private notifications: NotificationsService) {}
+  constructor () {}
 
   async copyToClipboard (text: string): Promise<boolean> {
     try {

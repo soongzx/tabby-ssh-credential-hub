@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core'
-import { TranslateService } from 'tabby-core'
 import { SettingsTabProvider } from 'tabby-settings'
 import { ManagedSSHSettingsTabComponent } from './components/managedSSHSettingsTab.component'
 
@@ -9,7 +8,7 @@ export class ManagedSSHSettingsTabProvider extends SettingsTabProvider {
   icon = 'key'
   title = 'SSH 凭据中心'
 
-  constructor (private translate: TranslateService) {
+  constructor () {
     super()
   }
 
