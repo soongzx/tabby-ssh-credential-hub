@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
-import { ToastrModule } from 'ngx-toastr'
 import TabbyCoreModule, { ConfigProvider, ProfileProvider } from 'tabby-core'
 import { SettingsTabProvider } from 'tabby-settings'
 import TabbyTerminalModule from 'tabby-terminal'
@@ -22,7 +21,6 @@ import { ManagedSSHUtilsService } from './services/managedSSHUtils.service'
     CommonModule,
     FormsModule,
     NgbModule,
-    ToastrModule,
     TabbyCoreModule,
     TabbyTerminalModule
   ],
