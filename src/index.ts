@@ -1,29 +1,46 @@
-import { Injectable, NgModule } from '@angular/core'
+import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import TabbyCoreModule, { ConfigProvider } from 'tabby-core'
+import { FormsModule } from '@angular/forms'
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
+import { ToastrModule } from 'ngx-toastr'
+import TabbyCoreModule, { ConfigProvider, ProfileProvider } from 'tabby-core'
+import { SettingsTabProvider } from 'tabby-settings'
+import TabbyTerminalModule from 'tabby-terminal'
 
-@Injectable()
-class EmptyConfigProvider extends ConfigProvider {
-    defaults = {
-        sshCredentialHub: {
-            version: 1,
-            profiles: [],
-            preferences: {
-                preferVault: true,
-                showManagedProfilesOnly: true,
-                defaultGroup: ''
-            }
-        }
-    }
-}
+import { ManagedSSHConfigProvider } from './config'
+import { ManagedSSHProfilesService } from './profiles'
+import { ManagedSSHSettingsTabProvider } from './settings'
+import { ManagedSSHSettingsTabComponent } from './components/managedSSHSettingsTab.component'
+import { ManagedSSHStoreService } from './services/managedSSHStore.service'
+import { ManagedSSHSecretService } from './services/managedSSHSecret.service'
+import { ManagedSSHMapperService } from './services/managedSSHMapper.service'
+import { ManagedSSHLauncherService } from './services/managedSSHLauncher.service'
+import { ManagedSSHUtilsService } from './services/managedSSHUtils.service'
 
 @NgModule({
-    imports: [
-        CommonModule,
-        TabbyCoreModule
-    ],
-    providers: [
-        { provide: ConfigProvider, useClass: EmptyConfigProvider, multi: true }
-    ]
+  imports: [
+    CommonModule,
+    FormsModule,
+    NgbModule,
+    ToastrModule,
+    TabbyCoreModule,
+    TabbyTerminalModule
+  ],
+  declarations: [
+    ManagedSSHSettingsTabComponent
+  ],
+  entryComponents: [
+    ManagedSSHSettingsTabComponent
+  ],
+  providers: [
+    { provide: ConfigProvider, useClass: ManagedSSHConfigProvider, multi: true },
+    { provide: SettingsTabProvider, useClass: ManagedSSHSettingsTabProvider, multi: true },
+    { provide: ProfileProvider, useExisting: ManagedSSHProfilesService, multi: true },
+    ManagedSSHStoreService,
+    ManagedSSHSecretService,
+    ManagedSSHMapperService,
+    ManagedSSHLauncherService,
+    ManagedSSHUtilsService
+  ]
 })
 export default class ManagedSSHModule {}

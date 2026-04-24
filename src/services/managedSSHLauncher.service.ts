@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { AppService } from 'tabby-core'
+import { AppService, NotificationsService } from 'tabby-core'
 import { ManagedSSHProfile } from '../types'
 
 declare const SSHTabComponent: any
@@ -10,7 +10,8 @@ export class ManagedSSHLauncherService {
   private sshAvailable = false
 
   constructor (
-    private app: AppService
+    private app: AppService,
+    private notifications: NotificationsService
   ) {
     this.detectSSHTab()
   }
@@ -44,7 +45,7 @@ export class ManagedSSHLauncherService {
     }
 
     await navigator.clipboard.writeText(address)
-    console.log(`已复制连接信息: ${address}`)
+    this.notifications.info(`已复制连接信息: ${address}`)
   }
 
   isSSHAvailable (): boolean {
