@@ -10,6 +10,7 @@ import TabbyTerminalModule from 'tabby-terminal'
 import { ManagedSSHConfigProvider } from './config'
 import { ManagedSSHProfilesService } from './profiles'
 import { ManagedSSHSettingsTabProvider } from './settings'
+import { ManagedSSHSettingsTabComponent } from './components/managedSSHSettingsTab.component'
 import { ManagedSSHStoreService } from './services/managedSSHStore.service'
 import { ManagedSSHSecretService } from './services/managedSSHSecret.service'
 import { ManagedSSHMapperService } from './services/managedSSHMapper.service'
@@ -24,6 +25,12 @@ import { ManagedSSHUtilsService } from './services/managedSSHUtils.service'
     ToastrModule,
     TabbyCoreModule,
     TabbyTerminalModule
+  ],
+  declarations: [
+    ManagedSSHSettingsTabComponent
+  ],
+  entryComponents: [
+    ManagedSSHSettingsTabComponent
   ],
   providers: [
     { provide: ConfigProvider, useClass: ManagedSSHConfigProvider, multi: true },
